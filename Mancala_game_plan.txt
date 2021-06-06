@@ -1,0 +1,87 @@
+
+Rules el le3ba :
+
+ -- initialization():
+    Board = matrix 2x8
+    
+	[0 4 4 4 4 4 4 x] Board[0] =player1    
+	[x 4 4 4 4 4 4 0] Board[1] =player2
+    
+     return Board
+    
+ -- play_move(player,hole):
+        
+	
+        -- Bnmshy counterclockwise
+        -- bya5od kol el stones elly fel hole w ymshy 
+        -- msh by7ot fe pocket el player el tany 
+
+        player 1 msh hay7ot fe player2[7] 
+        player 2 msh hay7ot fe player1[0]
+        -- forbidden values at array player1[7] and player2[0] =x
+        -- mumkn nesta5dm el modulus w e7na bn rotate 3al holes.
+        -- law a5er stone et7atet fel pocket hal3ab tany 
+ 
+        if last_stone @ player1[0] -->next_player =player1
+        if last_stone @ player2[7] -->next_player =player2
+	
+    
+    
+-- 	STEALING_MODE():
+	if last_stone @ empty hole --> steal opposite stones and put in pocket
+		########player 1 hwa elly byl3b  
+		# y check heya out of bounds wala la2 
+		
+		player1[location of last_Stone]==1 AND != player1[0] :
+			take player2[location of last_Stone]+1 w y7otaha fel pocket 
+			player1[location of last_Stone]=0
+			player2[location of last_Stone]=0
+			
+		player2[location of last_Stone]==1 AND != player2[7]:
+			take player1[location of last_Stone]+1 w y7otaha fel pocket 
+			player1[location of last_Stone]=0
+			player2[location of last_Stone]=0
+			
+
+-- is_game_over(state_of_board):
+
+        -- Law kol el holes fedyt 3and player --> el player el tany bya5od kol el stones y7otaha fel pocket
+                
+                def holes_empty : player1[1:6] =0 OR player2[1:6]
+                
+                
+                if (holes_empty(player1)):
+                    player2[7]+=kol el stones el ba2ya 3ando 
+                    game_over=1
+                    
+                if (holes_empty(player2)):
+                    player1[0]+=kol el stones el ba2ya 3ando 
+                    game_over=1
+                    
+
+-- decide_winner(state_of_board):
+                
+
+        -- if(game_over):
+                DECIDE WINNER 
+                player1[0] > player2[7] --> Player 1 wins
+
+                Player2[7] > player1[0] --> Player 2 wins
+                
+		
+		
+-- AI functions :
+        evaluation
+        score
+        minimax
+        
+
+-- Functions logic bta3 el game :
+        
+        initialization
+        play_move
+        stealing
+        is_game_over
+        decide_winner
+        
+
