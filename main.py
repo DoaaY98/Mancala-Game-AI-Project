@@ -1,5 +1,5 @@
 import helper_functions as fn
-
+import minimax as minimax
 board = fn.initialize_board()
 board[0] = [25,0,0,0,0,0,0,0]
 board[1] = [0,2,2,2,2,2,2,4]

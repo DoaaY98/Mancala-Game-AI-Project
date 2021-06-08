@@ -24,7 +24,7 @@ def valid_move(board, move, player):
 #########################################################
 
 
-def is_game_over (board):
+def is_game_over(board):
     # function to check if the game whether over or not
     game_over = False
     sum = 0
@@ -163,7 +163,7 @@ def play_move(board, hole, player):
 
 
 def current_score(board, hole, player):
-    last_location, next_player = fns.play_move(board, hole, player)
+    last_location, next_player = play_move(board, hole, player)
     if player == 0:
         if last_location[0] != 0 and last_location[1] != 0:
             board[0][0] += 1
@@ -171,6 +171,7 @@ def current_score(board, hole, player):
             board[0][0] += 1
         else:
             pass
+
     elif player == 1:
         if last_location[0] != 7 and last_location[1] != 1:
             board[1][7] += 1
@@ -183,6 +184,7 @@ def current_score(board, hole, player):
     return score_player0, score_player1
 
 #####################################################################
+
 def stealing_mode(board, hole, player):
     last_location, next_player = play_move(board, hole, player)
     current_hole = last_location[0]
@@ -201,13 +203,47 @@ def stealing_mode(board, hole, player):
             #return board[1][7]
 
 
+##########################################
+def eval_board(board):
+    pass
+
+def get_valid_moves(board, maximizingPlayer=False):
+    pass
 
 
 
+def minimax(board, depth=3, alpha=-999, beta=+999, maximizingPlayer=False):
+    if depth==0 or is_game_over(board):
+        return eval_board(board)
+    
+    if maximizingPlayer:
+        max_eval = -999
+        moves = get_valid_moves(board, False)
+        for index in moves:
+            new_board = board.deepcopy()
+            _,_ = play_move(new_board, index, False)
+            my_eval = minimax(new_board, depth - 1, alpha, beta, False)
+            max_eval = max(my_eval, max_eval)
+            alpha = max(alpha, my_eval)
+            if beta <= alpha:
+                break
 
-
-
-
+        return max_eval
+    
+    #Here the other oponent plays, so we get the moves of the next player
+    else:
+        min_eval = +999
+        moves = get_valid_moves(board, True)
+        for index in moves:
+            new_board = board.deepcopy()
+            _,_ = play_move(new_board, index, True)
+            my_eval = minimax(new_board, depth - 1, alpha, beta, False)
+            min_eval = min(my_eval, max_eval)
+            beta = min(alpha, my_eval)
+            if beta <= alpha:
+                break
+        
+        return min_eval
 
 
 
