@@ -1,8 +1,8 @@
 import helper_functions as fn
 
-board=fn.initialize_board()
-board[0]=[25,0,0,0,0,0,0,0]
-board[1]=[0,2,2,2,2,2,2,4]
+board = fn.initialize_board()
+board[0] = [25,0,0,0,0,0,0,0]
+board[1] = [0,2,2,2,2,2,2,4]
 
 #print(play_move(board,0,0))
 
