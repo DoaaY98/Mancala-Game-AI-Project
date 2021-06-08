@@ -182,6 +182,23 @@ def current_score(board, hole, player):
     score_player1 = board[1][7]
     return score_player0, score_player1
 
+#####################################################################
+def stealing_mode(board, hole, player):
+    last_location, next_player = play_move(board, hole, player)
+    current_hole = last_location[0]
+    current_player = last_location[1]
+
+    if ((board[current_player][current_hole] == 1) & (player == current_player)):
+        if player == 0:
+            board[player][0] = board[player][current_hole] + board[1][current_hole]
+            board[player][current_hole] = 0
+            board[1][current_hole] = 0
+            #return board[0][0]
+        elif player == 1:
+            board[player][7] = board[player][current_hole] + board[0][current_hole]
+            board[player][current_hole] = 0
+            board[0][current_hole] = 0
+            #return board[1][7]
 
 
 

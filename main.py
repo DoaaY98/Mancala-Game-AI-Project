@@ -9,6 +9,7 @@ board[1] = [0,2,2,2,2,2,2,4]
 
 ##last_location , next_player=play_move(board,0,0)
 
+
 while(not fn.is_game_over(board)):
     #el3aaab
 
