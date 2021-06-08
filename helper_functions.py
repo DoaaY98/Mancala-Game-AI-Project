@@ -190,12 +190,12 @@ def stealing_mode(board, hole, player):
 
     if ((board[current_player][current_hole] == 1) & (player == current_player)):
         if player == 0:
-            board[player][0] = board[player][current_hole] + board[1][current_hole]
+            board[player][0] += board[player][current_hole] + board[1][current_hole]
             board[player][current_hole] = 0
             board[1][current_hole] = 0
             #return board[0][0]
         elif player == 1:
-            board[player][7] = board[player][current_hole] + board[0][current_hole]
+            board[player][7] += board[player][current_hole] + board[0][current_hole]
             board[player][current_hole] = 0
             board[0][current_hole] = 0
             #return board[1][7]
