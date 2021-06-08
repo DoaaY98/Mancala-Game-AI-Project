@@ -224,11 +224,15 @@ def minimax(board, depth=3, alpha=-999, beta=+999, maximizingPlayer=False):
             _,_ = play_move(new_board, index, False)
             my_eval = minimax(new_board, depth - 1, alpha, beta, False)
             max_eval = max(my_eval, max_eval)
-            alpha = max(alpha, my_eval)
+            
+            if alpha < max_eval:
+                alpha = max_eval
+                best_max_move = index
+            
             if beta <= alpha:
                 break
 
-        return max_eval
+        return max_eval, best_max_move
     
     #Here the other oponent plays, so we get the moves of the next player
     else:
@@ -238,12 +242,17 @@ def minimax(board, depth=3, alpha=-999, beta=+999, maximizingPlayer=False):
             new_board = board.deepcopy()
             _,_ = play_move(new_board, index, True)
             my_eval = minimax(new_board, depth - 1, alpha, beta, False)
-            min_eval = min(my_eval, max_eval)
-            beta = min(alpha, my_eval)
+            min_eval = min(my_eval, min_eval)
+            beta = min(alpha, min_eval)
+            
+            if beta > min_eval:
+                beta = min_eval
+                best_min_move = index
+
             if beta <= alpha:
                 break
         
-        return min_eval
+        return min_eval, best_min_move
 
 
 
