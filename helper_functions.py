@@ -204,7 +204,7 @@ def stealing_mode(board, hole, player):
 
 
 ##########################################
-def eval_board(board,mode):
+def eval_board(board, mode):
     moves = get_valid_moves(board, 0)
     #moves : hole1 , hole2 , hole3 , hole4
     best_score = hole_score_with_stealing(board, moves[0])
@@ -252,9 +252,9 @@ def get_valid_moves(board, maximizingPlayer):
 
 
 
-def minimax(board, depth=3, alpha=-999, beta=+999, maximizingPlayer=False):
+def minimax(board, depth=3, alpha=-999, beta=+999, maximizingPlayer=False, mode):
     if depth==0 or is_game_over(board):
-        return (eval_board(board), None)
+        return (eval_board(board, mode), None)
     
     if maximizingPlayer:
         max_eval = -999
