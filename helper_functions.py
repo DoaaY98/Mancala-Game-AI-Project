@@ -233,7 +233,7 @@ def get_valid_moves(board, maximizingPlayer):
 
 def minimax(board, depth=3, alpha=-999, beta=+999, maximizingPlayer=False):
     if depth==0 or is_game_over(board):
-        return eval_board(board)
+        return (eval_board(board), None)
     
     if maximizingPlayer:
         max_eval = -999
