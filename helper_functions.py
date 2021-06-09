@@ -300,8 +300,8 @@ def hole_score_with_stealing(board, hole):
     weight = num_of_coins - step + 1
     for i in range(1, 7):
         opp_side += board[1][i]
-    if num_of_coins == 0:
-        if board[1][hole] != 0:
+    if board[0][hole - num_of_coins] == 0:
+        if board[1][hole - num_of_coins] != 0:
             score += 15
     elif step == num_of_coins:
         if board[0][0] + 1 > board[1][7] and opp_side >= ai_side - 1:
