@@ -204,8 +204,29 @@ def stealing_mode(board, hole, player):
 
 
 ##########################################
-def eval_board(board):
-    pass
+def eval_board(board,mode):
+    moves = get_valid_moves(board, 0)
+    #moves : hole1 , hole2 , hole3 , hole4
+    best_score = hole_score_with_stealing(board, moves[0])
+    best_hole = moves[0]
+    for hole in moves:
+        if mode == False:
+            # stealing mode
+            current_s = hole_score_with_stealing(board, hole)
+            if current_s > best_score :
+                best_score = current_s
+                best_hole = hole
+        elif mode == True:
+            # non-stealing mode
+            current_s = hole_score_with_stealing(board, hole)
+            if current_s > best_score :
+                best_score = current_s
+                best_hole = hole
+        return best_hole
+
+
+
+
 
 def get_valid_moves(board, maximizingPlayer):
     moves=[]
