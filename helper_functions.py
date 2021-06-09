@@ -207,8 +207,27 @@ def stealing_mode(board, hole, player):
 def eval_board(board):
     pass
 
-def get_valid_moves(board, maximizingPlayer=False):
-    pass
+def get_valid_moves(board, maximizingPlayer):
+    moves=[]
+    if(maximizingPlayer==False):
+        #player 2 is playing 
+
+        final_state=board[1]
+    else:
+        final_state=board[0]
+
+    for i in range(len(final_state)):
+            if i ==0 or i ==7 :
+                continue
+            else:
+                if(final_state[i]!=0):
+                    moves.append(i)
+
+    return moves
+
+
+
+
 
 
 
