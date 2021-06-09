@@ -255,6 +255,78 @@ def minimax(board, depth=3, alpha=-999, beta=+999, maximizingPlayer=False):
         return min_eval, best_min_move
 
 
+# score hole functions
+
+
+def hole_score_no_stealing(board, hole):
+    score = 0
+    num_of_coins = board[0][hole]
+    step = hole - 0
+    ai_side = 0
+    for i in range(1, 7):
+        ai_side += board[0][i]
+    opp_side = 0
+    weight = num_of_coins - step + 1
+    for i in range(1, 7):
+        opp_side += board[1][i]
+    if step == num_of_coins:
+        if board[0][0] + 1 > board[1][7] and opp_side >= ai_side - 1:
+            score += 11
+        elif board[0][0] + 1 > board[1][7] and opp_side < ai_side - 1:
+            score += 12
+        elif board[0][0] + 1 < board[1][7] and opp_side < ai_side - 1:
+            score += 10
+        elif board[0][0] + 1 < board[1][7] and opp_side >= ai_side - 1:
+            score += 9
+    elif step < num_of_coins:
+        if board[0][0] + 1 > board[1][7] and opp_side + weight >= ai_side - weight:
+            score += 7
+        elif board[0][0] + 1 > board[1][7] and opp_side + weight < ai_side - weight:
+            score += 8
+        elif board[0][0] + 1 < board[1][7] and opp_side + weight < ai_side - weight:
+            score += 6
+        elif board[0][0] + 1 < board[1][7] and opp_side + weight >= ai_side - weight:
+            score += 5
+    return score
+
+def hole_score_with_stealing(board, hole):
+    score = 0
+    num_of_coins = board[0][hole]
+    step = hole - 0
+    ai_side = 0
+    for i in range(1, 7):
+        ai_side += board[0][i]
+    opp_side = 0
+    weight = num_of_coins - step + 1
+    for i in range(1, 7):
+        opp_side += board[1][i]
+    if num_of_coins == 0:
+        if board[1][hole] != 0:
+            score += 15
+    elif step == num_of_coins:
+        if board[0][0] + 1 > board[1][7] and opp_side >= ai_side - 1:
+            score += 11
+        elif board[0][0] + 1 > board[1][7] and opp_side < ai_side - 1:
+            score += 12
+        elif board[0][0] + 1 < board[1][7] and opp_side < ai_side - 1:
+            score += 10
+        elif board[0][0] + 1 < board[1][7] and opp_side >= ai_side - 1:
+            score += 9
+    elif step < num_of_coins:
+        if board[0][0] + 1 > board[1][7] and opp_side + weight >= ai_side - weight:
+            score += 7
+        elif board[0][0] + 1 > board[1][7] and opp_side + weight < ai_side - weight:
+            score += 8
+        elif board[0][0] + 1 < board[1][7] and opp_side + weight < ai_side - weight:
+            score += 6
+        elif board[0][0] + 1 < board[1][7] and opp_side + weight >= ai_side - weight:
+            score += 5
+        for hole in range(1, weight + 1):
+            if board[1][hole] == 0:
+                score += 1
+    return score
+
+
 
 
 
