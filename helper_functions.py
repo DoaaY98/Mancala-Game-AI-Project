@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 
 ##############################################
@@ -13,22 +14,24 @@ def initialize_board ():
 
 def valid_move(board, move, player):
     # function to check whether the move is valid or not, check the forbidden holes & check if the move is empty
-    x, y = player, move
+    x, y = int(player), move
     if (x == 0 and y == 0) or (x == 0 and y == 7) or (x == 1 and y == 0) or (x == 1 and y == 7):
         return False
+    print(x, y)
     if board[x][y] == 0:
         return False
     if move > 6:
         return False
     return True
+
 #########################################################
 
 
 def is_game_over(board):
     # function to check if the game whether over or not
     game_over = False
-    sum = 0
     for half_board in board:
+        sum = 0
         for hole, i in zip(half_board, range(len(half_board))):
             if i == 0 or i == 7:
                 continue
@@ -134,6 +137,7 @@ def player2_move(board,no_of_iterations,index):
 # last location is a list of two variables [current hole,player that the last hole is at]
 # next_player is a variable that indicates the player that now has the turn (0 for player 1 and 1 for player2)
 def play_move(board, hole, player):
+    player = int(player)
     current_player = player
     next_player = (player+1) % 2
     last_location = []
@@ -143,7 +147,7 @@ def play_move(board, hole, player):
         return [], current_player
     else:
         # move is valid
-        no_of_iterations = board[player][hole]
+        no_of_iterations = board[int(player)][hole]
         board[player][hole] = 0  # empty this hole
         index = hole
         if player == 0:
@@ -219,7 +223,7 @@ def eval_board(board, mode):
         elif mode == True:
             # non-stealing mode
             current_s = hole_score_with_stealing(board, hole)
-            if current_s > best_score :
+            if current_s > best_score:
                 best_score = current_s
                 best_hole = hole
         return best_hole
@@ -230,12 +234,11 @@ def eval_board(board, mode):
 
 def get_valid_moves(board, maximizingPlayer):
     moves=[]
-    if(maximizingPlayer==False):
-        #player 2 is playing 
-
-        final_state=board[1]
+    if(maximizingPlayer== 1):
+        #player 2 is playing
+        final_state = board[1]
     else:
-        final_state=board[0]
+        final_state = board[0]
 
     for i in range(len(final_state)):
             if i ==0 or i ==7 :
@@ -243,7 +246,6 @@ def get_valid_moves(board, maximizingPlayer):
             else:
                 if(final_state[i]!=0):
                     moves.append(i)
-
     return moves
 
 
@@ -252,46 +254,46 @@ def get_valid_moves(board, maximizingPlayer):
 
 
 
-def minimax(board, depth=3, alpha=-999, beta=+999, maximizingPlayer=False, mode):
+def minimax(board, depth=1, alpha=-999, beta=+999, maximizingPlayer=0, mode = False):
     if depth==0 or is_game_over(board):
         return (eval_board(board, mode), None)
     
     if maximizingPlayer:
         max_eval = -999
         moves = get_valid_moves(board, False)
-        for index in moves:
-            new_board = board.deepcopy()
+        print("moves" + str(moves))
+        best_max_move = random.choice(moves)
+        print("random" + str(best_max_move))
+        for index in moves:  # get all valid holes
+            new_board = np.copy(board)
             _,_ = play_move(new_board, index, False)
-            my_eval = minimax(new_board, depth - 1, alpha, beta, False)
-            max_eval = max(my_eval, max_eval)
-            
-            if alpha < max_eval:
-                alpha = max_eval
+            my_eval, _ = minimax(new_board, depth - 1, alpha, beta, 1 , False)
+            if my_eval > max_eval:
+                max_eval = my_eval
                 best_max_move = index
-            
+
+            alpha = max(alpha, max_eval)
+
             if beta <= alpha:
                 break
-
+        print("max:" + str(max_eval) +  "and" +  str(best_max_move))
         return max_eval, best_max_move
     
     #Here the other oponent plays, so we get the moves of the next player
     else:
         min_eval = +999
         moves = get_valid_moves(board, True)
+        best_min_move = random.choice(moves)
         for index in moves:
-            new_board = board.deepcopy()
+            new_board = np.copy(board)
             _,_ = play_move(new_board, index, True)
-            my_eval = minimax(new_board, depth - 1, alpha, beta, False)
-            min_eval = min(my_eval, min_eval)
-            beta = min(alpha, min_eval)
-            
-            if beta > min_eval:
-                beta = min_eval
+            my_eval, _ = minimax(new_board, depth - 1, alpha, beta, 0,  False)
+            if my_eval < min_eval:
+                min_eval = my_eval
                 best_min_move = index
-
+            beta = min(beta, min_eval)
             if beta <= alpha:
                 break
-        
         return min_eval, best_min_move
 
 
