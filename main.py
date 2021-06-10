@@ -1,8 +1,8 @@
 import helper_functions as fn
 #import minimax as minimax
 board = fn.initialize_board()
-#board[0] = [52,0,17,0,0,0,0,0]
-#board[1] = [0,5,0,2,0,2,21,54]
+#board[1] = [15,0,6,0,0,0,14,0]
+#board[0] = [0,0,0,0,0,0,0,12]
 #fn.print_board(board)
 if __name__ == "__main__":
 
@@ -61,16 +61,16 @@ if __name__ == "__main__":
             player = 0
             val, best_move = fn.minimax(board, maximizingPlayer=1, mode=bool(mode))
             last_location, next_player = fn.play_move(board, best_move, int(player))
-            if not bool(mode):
-                fn.stealing_mode(board, best_move, int(player))
+            if mode=='0':
+                fn.stealing_mode(board, best_move, int(player),last_location)
         elif player == "1":  #  player to start
             player = 1
             move = int(input("YOUR TURN \n Choose move between 1 --> 6 :\n"))
             valid_moves = fn.get_valid_moves(board, int(player))
             if move in valid_moves:
                 last_location, next_player = fn.play_move(board, move, int(player))
-                if not bool(mode):
-                    fn.stealing_mode(board, move, int(player))
+                if mode=='0':
+                    fn.stealing_mode(board, move, int(player),last_location)
             else:
                 print("inValid Move xxxx")
                 print("Please choose a valid move ........")
@@ -80,7 +80,7 @@ if __name__ == "__main__":
         fn.print_board(board)
         print("\n")
         player = str(next_player)
-    if fn.is_game_over(board):
+if fn.is_game_over(board):
         print(fn.decide_winner(board))
         fn.print_board(board)
 

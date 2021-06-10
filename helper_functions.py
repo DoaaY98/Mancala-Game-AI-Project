@@ -87,16 +87,18 @@ def is_game_over(board):
 
 
 def collect_reminder_stones(board):
-        sum = 0
+        
         player = 0
         for half_board in board:
+            sum = 0
             for hole, i in zip(half_board, range(len(half_board))):
                 if i == 0 or i == 7:
                     continue
                 sum += hole
                 board[player][i] = 0
+            #print(sum)
             if sum == 0:
-                player += 1
+                player+=1
                 continue
             else:
                 if player == 0:
@@ -104,6 +106,7 @@ def collect_reminder_stones(board):
                     board[0][0] += sum
                 else:
                     board[1][7] += sum
+
 ############################################################
 
 
@@ -234,8 +237,8 @@ def current_score(board, hole, player):
 
 #####################################################################
 
-def stealing_mode(board, hole, player):
-    last_location, next_player = play_move(board, hole, player)
+def stealing_mode(board, hole, player,last_location):
+    #last_location, next_player = play_move(board, hole, player)
     current_hole = last_location[0]
     current_player = last_location[1]
 
