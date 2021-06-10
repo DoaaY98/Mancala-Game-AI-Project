@@ -10,6 +10,50 @@ def initialize_board ():
     return board
 
 ###############################################
+def print_board(board):
+    space=[]
+    AI=board[0][1:7]
+    AI_pocket=board[0][0]
+    str_pocket_ai=str(AI_pocket)
+    pocket_space=len(str_pocket_ai)
+    space.append(max(AI))
+    player=board[1][1:7]
+    player_pocket=board[1][7]
+    space.append(max(player))
+    space_str=str(max(space))
+    space_len=len(space_str)
+    string_join=" "*space_len
+    list_arrow=["^","^","^","^","^","^"]
+    list_tail=["|","|","|","|","|","|"]
+    list_numbers=["1","2","3","4","5","6"]
+    AI_display = string_join.join([str(elem) for elem in AI])
+    
+    player_display=string_join.join([str(elem) for elem in player])
+    arrow=string_join.join(list_arrow)
+    tail=string_join.join(list_tail)
+    num=string_join.join(list_numbers)
+    str_pocket_player=str(player_pocket)
+    player_space=len(str_pocket_player)
+    space_draw=0
+    if(len(AI_display) > len(player_display)):
+        space=len(AI_display)-len(player_display)
+        player_display+=" "*space
+        space_draw=len(AI_display)
+
+    else:
+        space=len(player_display)-len(AI_display)
+        AI_display+=" "*space
+        space_draw=len(player_display)
+
+
+    print(" ---"+" "*pocket_space+"  "+AI_display+"   "+" ---"+" "*player_space+"  ")
+    print("| "+" "*pocket_space+"|"+"   "+" "*space_draw+"   "+"| "+" "*player_space+"|"+"   ")
+    print("| "+str(AI_pocket)+"|"+"   "+" "*space_draw+"   "+"| "+str(player_pocket)+"|"+"   ")
+    print("| "+" "*pocket_space+"|"+"   "+" "*space_draw+"   "+"| "+" "*player_space+"|"+"   ")
+    print(" ---"+" "*pocket_space+"  "+player_display+"   "+" ---"+" "*player_space+"  ")
+    print("    "+" "*pocket_space+"  "+arrow+"   "+"    "+" "*player_space+"  ")
+    print("    "+" "*pocket_space+"  "+tail+"   "+"    "+" "*player_space+"  ")
+    print("MOVE  "+" "*pocket_space+num+"   ")
 
 
 def valid_move(board, move, player):
@@ -17,7 +61,7 @@ def valid_move(board, move, player):
     x, y = int(player), move
     if (x == 0 and y == 0) or (x == 0 and y == 7) or (x == 1 and y == 0) or (x == 1 and y == 7):
         return False
-    print(x, y)
+    #print(x, y)
     if board[x][y] == 0:
         return False
     if move > 6:
@@ -56,6 +100,7 @@ def collect_reminder_stones(board):
                 continue
             else:
                 if player == 0:
+                    board[0][1:7]=0
                     board[0][0] += sum
                 else:
                     board[1][7] += sum
@@ -67,9 +112,9 @@ def decide_winner(board):
     winner_player = "none"
     collect_reminder_stones(board)
     if board[0][0] >= board[1][7]:
-        winner_player = "player1"
+        winner_player = "************ YOU LOST :P ****************"
     else:
-        winner_player = "player2"
+        winner_player = "************ YOU WON ******************"
     return winner_player
 ####################################################
 
@@ -143,7 +188,7 @@ def play_move(board, hole, player):
     last_location = []
     if not valid_move(board, hole, player):
         # if move is not valid
-        print("move is not valid")
+        #print("move is not valid")
         return [], current_player
     else:
         # move is valid
@@ -261,9 +306,9 @@ def minimax(board, depth=1, alpha=-999, beta=+999, maximizingPlayer=0, mode = Fa
     if maximizingPlayer:
         max_eval = -999
         moves = get_valid_moves(board, False)
-        print("moves" + str(moves))
+        #print("moves" + str(moves))
         best_max_move = random.choice(moves)
-        print("random" + str(best_max_move))
+        #print("random" + str(best_max_move))
         for index in moves:  # get all valid holes
             new_board = np.copy(board)
             _,_ = play_move(new_board, index, False)
@@ -276,7 +321,7 @@ def minimax(board, depth=1, alpha=-999, beta=+999, maximizingPlayer=0, mode = Fa
 
             if beta <= alpha:
                 break
-        print("max:" + str(max_eval) +  "and" +  str(best_max_move))
+        #print("max:" + str(max_eval) +  "and" +  str(best_max_move))
         return max_eval, best_max_move
     
     #Here the other oponent plays, so we get the moves of the next player
