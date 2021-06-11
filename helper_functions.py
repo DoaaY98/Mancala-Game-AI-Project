@@ -1,7 +1,8 @@
 import numpy as np
 import random
 
-
+global play_now
+play_now = 0
 ##############################################
 def initialize_board ():
     board = np.array([[0, 4, 4, 4, 4, 4, 4, 0],
@@ -258,6 +259,7 @@ def stealing_mode(board, hole, player,last_location):
 ##########################################
 def eval_board(board, mode):
     moves = get_valid_moves(board, 0)
+    #print(moves)
     #moves : hole1 , hole2 , hole3 , hole4
     best_score = hole_score_with_stealing(board, moves[0])
     best_hole = moves[0]
@@ -301,10 +303,29 @@ def get_valid_moves(board, maximizingPlayer):
 
 
 
+co=0
 
-def minimax(board, depth=1, alpha=-999, beta=+999, maximizingPlayer=0, mode = False):
-    if depth==0 or is_game_over(board):
-        return (eval_board(board, mode), None)
+def minimax(board, depth = 10000, alpha = -999, beta = +999, maximizingPlayer = 0, mode = False):
+    global co
+    co+=1
+    #print("I am in : " + str(co))
+    moves = get_valid_moves(board, mode)
+    #print(moves)
+    if is_game_over(board) or depth==0 or play_now:
+        if is_game_over(board): 
+            if maximizingPlayer:
+                #ai
+                return (9999, None)
+
+            elif not(maximizingPlayer):
+                return (-9999, None)
+
+            else: 
+                return (0, None)
+        
+        else: # depth = 0 
+            #print("I am in NONE & NONE")
+            return (eval_board(board, mode), None)
     
     if maximizingPlayer:
         max_eval = -999
@@ -316,6 +337,7 @@ def minimax(board, depth=1, alpha=-999, beta=+999, maximizingPlayer=0, mode = Fa
             new_board = np.copy(board)
             _,_ = play_move(new_board, index, False)
             my_eval, _ = minimax(new_board, depth - 1, alpha, beta, 1 , False)
+
             if my_eval > max_eval:
                 max_eval = my_eval
                 best_max_move = index
@@ -328,7 +350,7 @@ def minimax(board, depth=1, alpha=-999, beta=+999, maximizingPlayer=0, mode = Fa
         return max_eval, best_max_move
     
     #Here the other oponent plays, so we get the moves of the next player
-    else:
+    elif (not maximizingPlayer):
         min_eval = +999
         moves = get_valid_moves(board, True)
         best_min_move = random.choice(moves)
@@ -336,6 +358,8 @@ def minimax(board, depth=1, alpha=-999, beta=+999, maximizingPlayer=0, mode = Fa
             new_board = np.copy(board)
             _,_ = play_move(new_board, index, True)
             my_eval, _ = minimax(new_board, depth - 1, alpha, beta, 0,  False)
+            if my_eval == None:
+                break
             if my_eval < min_eval:
                 min_eval = my_eval
                 best_min_move = index
