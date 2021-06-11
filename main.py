@@ -1,4 +1,6 @@
 import helper_functions as fn
+import time
+global start_time
 #import minimax as minimax
 board = fn.initialize_board()
 #board[1] = [15,0,6,0,0,0,14,0]
@@ -57,12 +59,18 @@ if __name__ == "__main__":
             print("The Computer is Playing Now .............")
             print("-----------------------------------------")
             print("\n")
-            
+            print("Timer has start")
+            start_time=time.time()
+            def get_time():
+                elapsed_time=time.time()-start_time
+                return elapsed_time
             player = 0
             val, best_move = fn.minimax(board, maximizingPlayer=1, mode=bool(mode))
             last_location, next_player = fn.play_move(board, best_move, int(player))
             if mode=='0':
                 fn.stealing_mode(board, best_move, int(player),last_location)
+            elapsed_time=time.time()-start_time
+            print("Elapsed time: " + str(elapsed_time))
         elif player == "1":  #  player to start
             player = 1
             move = int(input("YOUR TURN \n Choose move between 1 --> 6 :\n"))
