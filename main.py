@@ -1,5 +1,7 @@
 import helper_functions as fn
+import play_now as p
 import time
+import keyboard
 global start_time
 #import minimax as minimax
 board = fn.initialize_board()
@@ -7,6 +9,8 @@ board = fn.initialize_board()
 #board[0] = [0,0,0,0,0,0,0,12]
 #fn.print_board(board)
 if __name__ == "__main__":
+
+    play = p.PlayNow()
 
     print("-------------------**************----------------------")
     print("||               Welcome to Mancala Game             ||")
@@ -55,7 +59,9 @@ if __name__ == "__main__":
     print("\n")
     next_player = 0
     while not fn.is_game_over(board):
+        
         if player == "0":  # ai to start
+            play.keyPressed()
             print("The Computer is Playing Now .............")
             print("-----------------------------------------")
             print("\n")
@@ -71,6 +77,9 @@ if __name__ == "__main__":
                 fn.stealing_mode(board, best_move, int(player),last_location)
             elapsed_time=time.time()-start_time
             print("Elapsed time: " + str(elapsed_time))
+            play.set_playNow()
+        
+        
         elif player == "1":  #  player to start
             player = 1
             move = int(input("YOUR TURN \n Choose move between 1 --> 6 :\n"))

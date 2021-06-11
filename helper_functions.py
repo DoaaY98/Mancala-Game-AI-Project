@@ -1,8 +1,9 @@
 import numpy as np
 import random
+import play_now as p
 
-global play_now
-play_now = 0
+
+play = p.PlayNow()
 ##############################################
 def initialize_board ():
     board = np.array([[0, 4, 4, 4, 4, 4, 4, 0],
@@ -311,7 +312,7 @@ def minimax(board, depth = 10000, alpha = -999, beta = +999, maximizingPlayer = 
     #print("I am in : " + str(co))
     moves = get_valid_moves(board, mode)
     #print(moves)
-    if is_game_over(board) or depth==0 or play_now:
+    if is_game_over(board) or depth==0 or play.check_playNow():
         if is_game_over(board): 
             if maximizingPlayer:
                 #ai
@@ -323,7 +324,7 @@ def minimax(board, depth = 10000, alpha = -999, beta = +999, maximizingPlayer = 
             else: 
                 return (0, None)
         
-        else: # depth = 0 
+        else: # depth = 0  or check play_now
             #print("I am in NONE & NONE")
             return (eval_board(board, mode), None)
     
