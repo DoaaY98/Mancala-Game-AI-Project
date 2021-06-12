@@ -312,7 +312,7 @@ def minimax(board, depth = 10000, alpha = -999, beta = +999, maximizingPlayer = 
     #print("I am in : " + str(co))
     moves = get_valid_moves(board, mode)
     #print(moves)
-    if is_game_over(board) or depth==0 or play.check_playNow():
+    if is_game_over(board) or depth==0: #or play.check_playNow():
         if is_game_over(board): 
             if maximizingPlayer:
                 #ai
