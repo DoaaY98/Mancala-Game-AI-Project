@@ -61,7 +61,7 @@ if __name__ == "__main__":
     while not fn.is_game_over(board):
         
         if player == "0":  # ai to start
-            play.keyPressed()
+            #play.keyPressed()
             print("The Computer is Playing Now .............")
             print("-----------------------------------------")
             print("\n")
@@ -77,7 +77,7 @@ if __name__ == "__main__":
                 fn.stealing_mode(board, best_move, int(player),last_location)
             elapsed_time=time.time()-start_time
             print("Elapsed time: " + str(elapsed_time))
-            play.set_playNow()
+            #play.set_playNow()
         
         
         elif player == "1":  #  player to start
