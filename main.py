@@ -1,4 +1,4 @@
-import v2 as fn
+import helper_functions as fn
 
 # import minimax as minimax
 board = fn.initialize_board()
