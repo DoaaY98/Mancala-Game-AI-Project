@@ -9,10 +9,10 @@ board = fn.initialize_board()
 # fn.print_board(board)
 if __name__ == "__main__":
 
-    board_loaded = sv.load_game()
+    board_loaded,mode,difficulty_level = sv.load_game()
     saved = 0
-    difficulty_level = ""
-
+    #difficulty_level = ""
+    #mode=''
     print("-------------------**************----------------------")
     print("||               Welcome to Mancala Game             ||")
     print("-------------------**************----------------------")
@@ -69,13 +69,14 @@ if __name__ == "__main__":
             print("||                LOADING LAST GAME....             ||")
             print("-------------------******----------------------")
             print("-------------------******----------------------")
-            stealing_mode= input("Would You like to enter STEALING MODE? \n if Yes Press Y  \n if NO then press any other key.... \n")
+            #stealing_mode= input("Would You like to enter STEALING MODE? \n if Yes Press Y  \n if NO then press any other key.... \n")
 
 
-            if(stealing_mode=='Y' or stealing_mode== 'y'):
-                mode='0'
-            else:
-                mode='1'
+            #if(stealing_mode=='Y' or stealing_mode== 'y'):
+            #    mode='0'
+            #else:
+            #    mode='1'
+            
 
 
         else:
@@ -114,10 +115,13 @@ if __name__ == "__main__":
     next_player = 0
     if difficulty_level == "E" or difficulty_level == "e":
         depth = 2
+        print("EASY MODE IS ON ....")
     elif difficulty_level == "M" or difficulty_level == "m":
         depth = 5
+        print("MEDIUM MODE IS ON ....")
     elif difficulty_level == "H" or difficulty_level == "h":
         depth = 10
+        print("HARD MODE IS ON ....")
     else:
         depth = 10
     while not fn.is_game_over(board):
@@ -143,7 +147,7 @@ if __name__ == "__main__":
                 print("||                SAVING GAME             ||")
                 print("-------------------******----------------------")
                 print("-------------------******----------------------")
-                sv.save_game(board)
+                sv.save_game(board,mode,difficulty_level)
                 print("-------------------******----------------------")
                 print("-------------------******----------------------")
                 print("||                GOODBYE                  ||")
