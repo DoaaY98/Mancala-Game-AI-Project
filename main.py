@@ -175,3 +175,5 @@ if saved == 1:
 elif fn.is_game_over(board):
     print(fn.decide_winner(board))
     fn.print_board(board)
+    
+k=input("Press any key to exit \n")
